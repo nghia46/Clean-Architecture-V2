@@ -5,30 +5,31 @@ using Microsoft.AspNetCore.Mvc;
 namespace CleanIsClean.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
-public class UserController : ControllerBase
+public class UserController(UserService userService, IMapper mapper) : ControllerBase
 {
-    private readonly UserService _userService;
-    private readonly IMapper _mapper;
+    private readonly UserService _userService = userService;
+    private readonly IMapper _mapper = mapper;
 
-    public UserController(UserService userService, IMapper mapper)
+    [HttpGet("GetUserById")]
+    public async Task<IActionResult> GetUserById([FromQuery] int id)
     {
-        _userService = userService;
-        _mapper = mapper;
-    }
-    [HttpGet]
-    public async Task<IActionResult> GetUserById(int id)
-    {
-        User user = await _userService.GetUserByIdAsync(id);
-        if (user == null) return NotFound("User not found");
+        User? user = await _userService.GetUserByIdAsync(id);
+        if (user == null) return NotFound($"User with id {id} not found");
         UserView userView = _mapper.Map<UserView>(user);
         return Ok(userView);
+    }
+    [HttpGet("GetAllUsers")]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        IEnumerable<User> users = await _userService.GetAllUsersAsync();
+        IEnumerable<UserView> userViews = _mapper.Map<IEnumerable<UserView>>(users);
+        return Ok(userViews);
     }
     [HttpPost]
     public async Task<ActionResult> CreateUser(UserView userView)
     {
         User newUser = _mapper.Map<User>(userView);
         await _userService.AddUserAsync(newUser);
-        return Ok("User created successfully");
+        return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, _mapper.Map<UserView>(newUser));
     }
-
 }
