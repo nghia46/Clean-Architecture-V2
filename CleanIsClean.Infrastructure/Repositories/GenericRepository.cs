@@ -1,4 +1,5 @@
 // GenericRepository implementation
+using System.Linq.Expressions;
 using CleanIsClean.Domain.Interfaces;
 using CleanIsClean.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
@@ -8,23 +9,42 @@ public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : c
 {
     private readonly SqliteDatabaseContext _dbContext;
     private readonly DbSet<TEntity> _dbSet;
+    private static readonly char[] separator = new char[] { ',' };
 
     public GenericRepository(SqliteDatabaseContext dbContext)
     {
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<TEntity>();
     }
-
-    public async Task<TEntity> GetByIdAsync(int id)
+    public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>>? filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, string includeProperties = "")
     {
-        return await _dbSet.FindAsync(id) ?? throw new ArgumentNullException(nameof(id));
-    }
+        IQueryable<TEntity> query = _dbSet;
 
-    public async Task<IEnumerable<TEntity>> GetAllAsync()
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        foreach (var includeProperty in includeProperties.Split
+            (separator, StringSplitOptions.RemoveEmptyEntries))
+        {
+            query = query.Include(includeProperty);
+        }
+
+        if (orderBy != null)
+        {
+            return await orderBy(query).ToListAsync();
+        }
+        else
+        {
+            return await query.ToListAsync();
+        }
+    }
+    public async Task<TEntity?> GetByIdAsync(int id)
     {
-        return await _dbSet.ToListAsync();
+        var entity = await _dbSet.FindAsync(id);
+        return entity;
     }
-
     public async Task AddAsync(TEntity entity)
     {
         await _dbSet.AddAsync(entity);

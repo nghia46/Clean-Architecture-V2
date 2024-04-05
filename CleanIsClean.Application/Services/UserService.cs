@@ -15,8 +15,19 @@ public class UserService
     {
         await _userRepository.AddAsync(user);
     }
-    public async Task GetAllUsersAsync()
+    public async Task<User?> GetUserByIdAsync(int id)
     {
-        await _userRepository.GetAllAsync();
+        var user = await _userRepository.GetByIdAsync(id);
+        return user;
+    }
+    public async Task<User?> GetUserByEmailAsync(string email)
+    {
+        IEnumerable<User?> users = await _userRepository.Get(u => u.Email == email);
+        User? user = users.FirstOrDefault();
+        return user;
+    }
+    public async Task<IEnumerable<User>> GetAllUsersAsync()
+    {
+       return await _userRepository.Get();
     }
 }
