@@ -18,9 +18,9 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 #region services
 builder.Services.AddScoped<UserService>();
 #endregion
+
 #region Other
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-
 #endregion
 var app = builder.Build();
 

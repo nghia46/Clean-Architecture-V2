@@ -1,7 +1,5 @@
 using AutoMapper;
-using CleanIsClean.Application.Services;
 using CleanIsClean.Application.ViewModels;
-using CleanIsClean.Infrastructure.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanIsClean.API.Controllers;
@@ -17,6 +15,14 @@ public class UserController : ControllerBase
         _userService = userService;
         _mapper = mapper;
     }
+    [HttpGet]
+    public async Task<IActionResult> GetUserById(int id)
+    {
+        User user = await _userService.GetUserByIdAsync(id);
+        if (user == null) return NotFound("User not found");
+        UserView userView = _mapper.Map<UserView>(user);
+        return Ok(userView);
+    }
     [HttpPost]
     public async Task<ActionResult> CreateUser(UserView userView)
     {
@@ -24,4 +30,5 @@ public class UserController : ControllerBase
         await _userService.AddUserAsync(newUser);
         return Ok("User created successfully");
     }
+
 }
