@@ -1,15 +1,10 @@
 using CleanIsClean.Domain.Interfaces;
-using CleanIsClean.Infrastructure.Models;
+using CleanIsClean.Domain.Models;
 
 namespace CleanIsClean.Application.Services;
-public class UserService
+public class UserService(IRepository<User> userRepository) : IUserService
 {
-    private readonly IRepository<User> _userRepository;
-
-    public UserService(IRepository<User> userRepository)
-    {
-        _userRepository = userRepository;
-    }
+    private readonly IRepository<User> _userRepository = userRepository;
 
     public async Task AddUserAsync(User user)
     {
@@ -29,5 +24,13 @@ public class UserService
     public async Task<IEnumerable<User>> GetAllUsersAsync()
     {
        return await _userRepository.Get();
+    }
+    public async Task UpdateUserAsync(User user)
+    {
+        await _userRepository.UpdateAsync(user);
+    }
+    public async Task DeleteUserAsync(int id)
+    {
+        await _userRepository.DeleteAsync(id);
     }
 }

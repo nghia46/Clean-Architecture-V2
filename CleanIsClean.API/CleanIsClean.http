@@ -1,6 +1,6 @@
 @CleanIsClean_HostAddress = http://localhost:5178
 
-GET {{CleanIsClean_HostAddress}}/weatherforecast/
+GET {{CleanIsClean_HostAddress}}/api/Authentication/Login
 Accept: application/json
 
 ###

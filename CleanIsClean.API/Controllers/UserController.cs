@@ -1,14 +1,16 @@
 using AutoMapper;
 using CleanIsClean.Application.ViewModels;
+using CleanIsClean.Domain.Interfaces;
+using CleanIsClean.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanIsClean.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
-public class UserController(UserService userService, IMapper mapper) : ControllerBase
+public class UserController(IUserService userService, IMapper mapper) : ControllerBase
 {
-    private readonly UserService _userService = userService;
+    private readonly IUserService _userService = userService;
     private readonly IMapper _mapper = mapper;
     [HttpGet("GetAllUsers")]
     [Authorize]
@@ -27,5 +29,23 @@ public class UserController(UserService userService, IMapper mapper) : Controlle
         UserView userView = _mapper.Map<UserView>(user);
         return Ok(userView);
     }
-
+    [HttpPut("UpdateUser")]
+    [Authorize]
+    public async Task<IActionResult> UpdateUser(int id, UserView userView)
+    {
+        User? user = await _userService.GetUserByIdAsync(id);
+        if (user == null)  return NotFound($"User with id {id} not found");
+        _mapper.Map(userView, user);
+        await _userService.UpdateUserAsync(user);
+        return Ok();
+    }
+    [HttpDelete("DeleteUser {id:int}")]
+    [Authorize]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+        User? user = await _userService.GetUserByIdAsync(id);
+        if (user == null) return NotFound($"User with id {id} not found");
+        await _userService.DeleteUserAsync(id);
+        return Ok();
+    }
 }

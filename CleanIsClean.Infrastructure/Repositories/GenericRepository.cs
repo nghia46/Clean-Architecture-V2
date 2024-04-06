@@ -9,7 +9,7 @@ public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : c
 {
     private readonly SqliteDatabaseContext _dbContext;
     private readonly DbSet<TEntity> _dbSet;
-    private static readonly char[] separator = new char[] { ',' };
+    private static readonly char[] separator = [','];
 
     public GenericRepository(SqliteDatabaseContext dbContext)
     {
@@ -53,7 +53,8 @@ public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : c
 
     public async Task UpdateAsync(TEntity entity)
     {
-        _dbSet.Update(entity);
+        _dbSet.Attach(entity);
+        _dbContext.Entry(entity).State = EntityState.Modified;
         await _dbContext.SaveChangesAsync();
     }
 

@@ -1,3 +1,8 @@
+using CleanIsClean.API.Mapping;
+using CleanIsClean.Application.Services;
+using CleanIsClean.Domain.Interfaces;
+using CleanIsClean.Infrastructure.Models;
+using CleanIsClean.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -69,8 +74,8 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 #endregion
 
 #region services
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped<IUserService,UserService>();
+builder.Services.AddScoped<IAuthenticationService,AuthenticationService>();
 #endregion
 
 #region Other

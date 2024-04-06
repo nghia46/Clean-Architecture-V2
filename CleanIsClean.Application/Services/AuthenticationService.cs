@@ -2,13 +2,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using CleanIsClean.Domain.Interfaces;
-using CleanIsClean.Infrastructure.Models;
+using CleanIsClean.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CleanIsClean.Application.Services;
 
-public class AuthenticationService(IRepository<User> userRepository, IConfiguration configuration)
+public class AuthenticationService(IRepository<User> userRepository, IConfiguration configuration) : IAuthenticationService
 {
     private readonly IRepository<User> _userRepository = userRepository;
     private readonly IConfiguration _configuration = configuration;
