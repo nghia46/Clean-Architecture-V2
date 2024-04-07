@@ -1,7 +1,7 @@
 // GenericRepository implementation
 using System.Linq.Expressions;
 using CleanIsClean.Domain.Interfaces;
-using CleanIsClean.Infrastructure.Models;
+using CleanIsClean.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanIsClean.Infrastructure.Repositories;

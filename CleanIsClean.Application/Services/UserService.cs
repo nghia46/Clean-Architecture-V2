@@ -1,14 +1,20 @@
 using CleanIsClean.Domain.Interfaces;
-using CleanIsClean.Domain.Models;
 
 namespace CleanIsClean.Application.Services;
-public class UserService(IRepository<User> userRepository) : IUserService
+public class UserService(IRepository<User> userRepository,
+IRepository<UserRole> userRoleRepository,
+IRepository<Role> roleRepository) : IUserService
 {
     private readonly IRepository<User> _userRepository = userRepository;
+    private readonly IRepository<UserRole> _userRoleRepository = userRoleRepository;
+    private readonly IRepository<Role> _roleRepository = roleRepository;
 
     public async Task AddUserAsync(User user)
     {
+        var role = await _roleRepository.Get(p => p.RoleName == "User");
         await _userRepository.AddAsync(user);
+        await _userRoleRepository.AddAsync(new UserRole { UserId = user.Id, RoleId = role.First().RoleId });
+
     }
     public async Task<User?> GetUserByIdAsync(int id)
     {
@@ -23,7 +29,7 @@ public class UserService(IRepository<User> userRepository) : IUserService
     }
     public async Task<IEnumerable<User>> GetAllUsersAsync()
     {
-       return await _userRepository.Get();
+        return await _userRepository.Get();
     }
     public async Task UpdateUserAsync(User user)
     {
@@ -32,5 +38,17 @@ public class UserService(IRepository<User> userRepository) : IUserService
     public async Task DeleteUserAsync(int id)
     {
         await _userRepository.DeleteAsync(id);
+    }
+
+    public Task AddUserRole(User user, string roleName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<string?> GetUserRoleNameById(int id)
+    {
+        IEnumerable<UserRole> userRoles = await _userRoleRepository.Get(p=> p.UserId == id, includeProperties: "Role");
+        UserRole? userRole = userRoles.FirstOrDefault();
+        return userRole?.Role?.RoleName;
     }
 }

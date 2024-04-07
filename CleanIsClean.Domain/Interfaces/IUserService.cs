@@ -1,4 +1,3 @@
-using CleanIsClean.Domain.Models;
 namespace CleanIsClean.Domain.Interfaces;
 public interface IUserService
 {
@@ -8,4 +7,6 @@ public interface IUserService
     Task<IEnumerable<User>> GetAllUsersAsync();
     Task UpdateUserAsync(User user);
     Task DeleteUserAsync(int id);
+    Task<string?> GetUserRoleNameById(int id);
+    Task AddUserRole(User user, string roleName);
 }

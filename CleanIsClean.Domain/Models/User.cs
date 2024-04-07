@@ -1,4 +1,7 @@
-﻿namespace CleanIsClean.Domain.Models;
+﻿using System;
+using System.Collections.Generic;
+
+
 public partial class User
 {
     public int Id { get; set; }
@@ -11,7 +14,9 @@ public partial class User
 
     public string? FullName { get; set; }
 
-    public bool? Status { get; set; }
+    public string? RefreshToken { get; set; }
+
+    public DateTime? RefreshTokenExpiryTime { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 

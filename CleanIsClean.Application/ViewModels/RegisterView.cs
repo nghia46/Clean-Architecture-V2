@@ -1,7 +1,6 @@
 namespace CleanIsClean.Application.ViewModels;
-public partial class UserView
+public partial class RegisterView
 {
-    public int Id { get; set; }
     public string Username { get; set; } = null!;
 
     public string Password { get; set; } = null!;
@@ -9,6 +8,4 @@ public partial class UserView
     public string Email { get; set; } = null!;
 
     public string? FullName { get; set; }
-
-    public string RoleName { get; set; } = null!;
 }

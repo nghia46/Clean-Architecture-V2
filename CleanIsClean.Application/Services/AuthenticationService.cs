@@ -1,21 +1,27 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using CleanIsClean.Domain.Interfaces;
-using CleanIsClean.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CleanIsClean.Application.Services;
 
-public class AuthenticationService(IRepository<User> userRepository, IConfiguration configuration) : IAuthenticationService
+public class AuthenticationService(IRepository<User> userRepository,IRepository<UserRole> userRoleRepository, IConfiguration configuration) : IAuthenticationService
 {
     private readonly IRepository<User> _userRepository = userRepository;
+    private readonly IRepository<UserRole> _userRoleRepository = userRoleRepository;
     private readonly IConfiguration _configuration = configuration;
     public async Task<string?> Login(string email, string password)
     {
         IEnumerable<User?> users = await _userRepository.Get(p => p.Email == email && p.Password == password);
-        var user = users.FirstOrDefault();
+        User? user = users.FirstOrDefault();
+
+        if (user == null) return null;
+        
+        // Take the userRole if it exists
+        IEnumerable<UserRole?> userRoles = await _userRoleRepository.Get(p=> p.UserId == user.Id, includeProperties: "Role");
 
         if (user == null) return null;
         // JWT token generation
@@ -30,7 +36,8 @@ public class AuthenticationService(IRepository<User> userRepository, IConfigurat
                 new Claim("Id", Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                //new Claim(ClaimTypes.Role, "Admin"),
+                new Claim("UserId", user.Id.ToString()),
+                new Claim(ClaimTypes.Role, userRoles.FirstOrDefault()?.Role?.RoleName ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             ]),
             Expires = DateTime.UtcNow.AddMinutes(5),
@@ -46,4 +53,15 @@ public class AuthenticationService(IRepository<User> userRepository, IConfigurat
 
         return jwtToken;
     }
+    public static string GenerateRefreshToken()
+    {
+        // Generate a random refresh token using a cryptographic random number generator
+        byte[] randomNumber = new byte[32];
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(randomNumber);
+        }
+        return Convert.ToBase64String(randomNumber);
+    }
+    
 }

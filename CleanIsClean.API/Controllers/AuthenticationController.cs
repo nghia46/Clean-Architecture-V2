@@ -1,7 +1,6 @@
 using AutoMapper;
 using CleanIsClean.Application.ViewModels;
 using CleanIsClean.Domain.Interfaces;
-using CleanIsClean.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanIsClean.API.Controllers;
@@ -21,13 +20,17 @@ public class AuthenticationController(IAuthenticationService authenticationServi
         return Ok(token);
     }
     [HttpPost("Register")]
-    public async Task<ActionResult> Register(UserView userView)
+    public async Task<ActionResult> Register(RegisterView registerView)
     {
-        if (await _userService.GetUserByEmailAsync(userView.Email) != null) return BadRequest("User already exists");
-        User? newUser = _mapper.Map<User>(userView);
-        newUser.Status = true;
+        if (await _userService.GetUserByEmailAsync(registerView.Email) != null) return BadRequest("User already exists");
+        User? newUser = _mapper.Map<User>(registerView);
         await _userService.AddUserAsync(newUser);
-        string? url = Url.Action("GetUserById", "UserController", new { id = newUser.Id }, Request.Scheme);
-        return Created(url, _mapper.Map<UserView>(newUser));
+        // get user information after adding to reponse
+        User? users = await _userService.GetUserByIdAsync(newUser.Id);
+        UserView userView = _mapper.Map<UserView>(users);
+        userView.RoleName = await _userService.GetUserRoleNameById(newUser.Id) ?? "";
+        return Ok(userView);
+        // string? url = Url.Action("GetUserById", "UserController", new { id = newUser.Id }, Request.Scheme);
+        // return Created(url, _mapper.Map<UserView>(newUser));
     }
 }

@@ -1,7 +1,8 @@
 using CleanIsClean.API.Mapping;
+using CleanIsClean.API.Middleware;
 using CleanIsClean.Application.Services;
 using CleanIsClean.Domain.Interfaces;
-using CleanIsClean.Infrastructure.Models;
+using CleanIsClean.Infrastructure.Data;
 using CleanIsClean.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -101,6 +102,10 @@ app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Clean API V1");
 });
+
+#region Middleware
+app.UseMiddleware<AuthorizationMiddleware>();
+#endregion
 
 app.UseHttpsRedirection();
 
