@@ -1,7 +1,6 @@
 using AutoMapper;
 using CleanIsClean.Application.ViewModels;
 using CleanIsClean.Domain.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using CleanIsClean.Application.Tools;
 
@@ -13,7 +12,6 @@ public class UserController(IUserService userService, IMapper mapper) : Controll
     private readonly IUserService _userService = userService;
     private readonly IMapper _mapper = mapper;
     [HttpGet("GetAllUsers")]
-    [Authorize(Roles = "User, Admin")]
     public async Task<IActionResult> GetAllUsers()
     {
         IEnumerable<User> users = await _userService.GetAllUsersAsync();

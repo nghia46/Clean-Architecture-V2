@@ -1,26 +1,22 @@
-CREATE TABLE Users (
-    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-    Username TEXT NOT NULL,
-    Password TEXT NOT NULL,
-    Email TEXT NOT NULL,
-    FullName TEXT,
-    RefreshToken TEXT NULL,
-    RefreshTokenExpiryTime DATETIME NULL,
-    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UpdatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
-);
--- Create the Roles table
-CREATE TABLE Roles (
-    RoleId INTEGER PRIMARY KEY AUTOINCREMENT,
-    RoleName TEXT NOT NULL UNIQUE
+CREATE TABLE User (
+  id INT PRIMARY KEY AUTOINCREMENT,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL, -- hashed and salted
+  status VARCHAR(255) DEFAULT 'active',
+  created_on DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_on DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Create the UserRoles junction table
-CREATE TABLE UserRoles (
-    UserRoleId INTEGER PRIMARY KEY AUTOINCREMENT,
-    UserId INTEGER NOT NULL,
-    RoleId INTEGER NOT NULL,
-    FOREIGN KEY (UserId) REFERENCES Users(Id),
-    FOREIGN KEY (RoleId) REFERENCES Roles(RoleId),
-    UNIQUE (UserId, RoleId)
+CREATE TABLE Role (
+  id INT PRIMARY KEY AUTOINCREMENT,
+  role_name VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE UserRole (
+  user_id INT,
+  role_id INT,
+  PRIMARY KEY (user_id, role_id),
+  FOREIGN KEY (user_id) REFERENCES User(id),
+  FOREIGN KEY (role_id) REFERENCES Role(id)
 );

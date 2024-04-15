@@ -40,7 +40,7 @@ public class AuthenticationService(IRepository<User> userRepository,IRepository<
                 new Claim(ClaimTypes.Role, userRoles.FirstOrDefault()?.Role?.RoleName ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             ]),
-            Expires = DateTime.UtcNow.AddMinutes(5),
+            Expires = DateTime.UtcNow.AddMinutes(3),
             Issuer = issuer,
             Audience = audience,
             SigningCredentials = new SigningCredentials(
