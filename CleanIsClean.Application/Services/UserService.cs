@@ -14,7 +14,6 @@ IRepository<Role> roleRepository) : IUserService
         var role = await _roleRepository.Get(p => p.RoleName == "User");
         await _userRepository.AddAsync(user);
         await _userRoleRepository.AddAsync(new UserRole { UserId = user.Id, RoleId = role.First().RoleId });
-
     }
     public async Task<User?> GetUserByIdAsync(int id)
     {

@@ -1,6 +1,6 @@
 using AutoMapper;
-using CleanIsClean.Application.ViewModels;
 using CleanIsClean.Domain.Interfaces;
+using CleanIsClean.Domain.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanIsClean.API.Controllers;
@@ -15,7 +15,7 @@ public class AuthenticationController(IAuthenticationService authenticationServi
     [HttpPost("Login")]
     public async Task<IActionResult> Login(LoginView loginView)
     {
-        string? token = await _authenticationService.Login(loginView.Email, loginView.Password);
+        string? token = await _authenticationService.Login(loginView);
         if (token == null) return NotFound("Login failed");
         return Ok(token);
     }
@@ -25,7 +25,7 @@ public class AuthenticationController(IAuthenticationService authenticationServi
         if (await _userService.GetUserByEmailAsync(registerView.Email) != null) return BadRequest("User already exists");
         User? newUser = _mapper.Map<User>(registerView);
         await _userService.AddUserAsync(newUser);
-        // get user information after adding to reponse
+        // get user information after adding to response
         User? users = await _userService.GetUserByIdAsync(newUser.Id);
         UserView userView = _mapper.Map<UserView>(users);
         userView.RoleName = await _userService.GetUserRoleNameById(newUser.Id) ?? "";

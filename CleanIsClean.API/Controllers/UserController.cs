@@ -1,8 +1,8 @@
 using AutoMapper;
-using CleanIsClean.Application.ViewModels;
 using CleanIsClean.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using CleanIsClean.Application.Tools;
+using CleanIsClean.Domain.ViewModels;
 
 namespace CleanIsClean.API.Controllers;
 [ApiController]

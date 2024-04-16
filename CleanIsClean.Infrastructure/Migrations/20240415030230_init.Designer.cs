@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanIsClean.Infrastructure.Migrations
 {
     [DbContext(typeof(SqliteDatabaseContext))]
-    [Migration("20240407010224_fixIdRef")]
-    partial class fixIdRef
+    [Migration("20240415030230_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace CleanIsClean.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.3");
 
-            modelBuilder.Entity("CleanIsClean.Domain.Models.Role", b =>
+            modelBuilder.Entity("Role", b =>
                 {
                     b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
@@ -38,7 +38,7 @@ namespace CleanIsClean.Infrastructure.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("CleanIsClean.Domain.Models.User", b =>
+            modelBuilder.Entity("User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +80,7 @@ namespace CleanIsClean.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("CleanIsClean.Domain.Models.UserRole", b =>
+            modelBuilder.Entity("UserRole", b =>
                 {
                     b.Property<int>("UserRoleId")
                         .ValueGeneratedOnAdd()
@@ -102,9 +102,9 @@ namespace CleanIsClean.Infrastructure.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("CleanIsClean.Domain.Models.UserRole", b =>
+            modelBuilder.Entity("UserRole", b =>
                 {
-                    b.HasOne("CleanIsClean.Domain.Models.Role", "Role")
+                    b.HasOne("Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .IsRequired();
@@ -112,7 +112,7 @@ namespace CleanIsClean.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("CleanIsClean.Domain.Models.Role", b =>
+            modelBuilder.Entity("Role", b =>
                 {
                     b.Navigation("UserRoles");
                 });

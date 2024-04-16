@@ -1,5 +1,7 @@
+using CleanIsClean.Domain.ViewModels;
+
 namespace CleanIsClean.Domain.Interfaces;
 public interface IAuthenticationService
 {
-    Task<string?> Login(string email, string password);
+    Task<string?> Login(LoginView loginView);
 }

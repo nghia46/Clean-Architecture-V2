@@ -1,5 +1,5 @@
 using AutoMapper;
-using CleanIsClean.Application.ViewModels;
+using CleanIsClean.Domain.ViewModels;
 
 namespace CleanIsClean.API.Mapping;
 public class MappingProfile : Profile

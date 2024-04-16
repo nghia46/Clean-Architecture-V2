@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-
+﻿
 public partial class UserRole
 {
     public int UserRoleId { get; set; }

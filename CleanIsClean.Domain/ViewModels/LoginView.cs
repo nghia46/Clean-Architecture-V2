@@ -1,4 +1,4 @@
-namespace CleanIsClean.Application.ViewModels;
+namespace CleanIsClean.Domain.ViewModels;
 public partial class LoginView
 {
     public required string Email { get; set; }

@@ -1,4 +1,4 @@
-namespace CleanIsClean.Application.ViewModels;
+namespace CleanIsClean.Domain.ViewModels;
 public partial class UserView
 {
     public int Id { get; set; }

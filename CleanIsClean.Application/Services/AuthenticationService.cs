@@ -5,7 +5,7 @@ using System.Text;
 using CleanIsClean.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-
+using CleanIsClean.Domain.ViewModels;
 namespace CleanIsClean.Application.Services;
 
 public class AuthenticationService(IRepository<User> userRepository,IRepository<UserRole> userRoleRepository, IConfiguration configuration) : IAuthenticationService
@@ -13,9 +13,9 @@ public class AuthenticationService(IRepository<User> userRepository,IRepository<
     private readonly IRepository<User> _userRepository = userRepository;
     private readonly IRepository<UserRole> _userRoleRepository = userRoleRepository;
     private readonly IConfiguration _configuration = configuration;
-    public async Task<string?> Login(string email, string password)
+    public async Task<string?> Login(LoginView loginView)
     {
-        IEnumerable<User?> users = await _userRepository.Get(p => p.Email == email && p.Password == password);
+        IEnumerable<User?> users = await _userRepository.Get(p => p.Email == loginView.Email && p.Password == loginView.Password);
         User? user = users.FirstOrDefault();
 
         if (user == null) return null;
