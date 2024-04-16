@@ -77,6 +77,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 #region services
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddScoped<IAuthenticationService,AuthenticationService>();
+builder.Services.AddScoped<IRoleService,RoleService>();
 #endregion
 
 #region Other

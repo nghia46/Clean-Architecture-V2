@@ -40,11 +40,6 @@ public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : c
             return await query.ToListAsync();
         }
     }
-    public async Task<TEntity?> GetByIdAsync(int id)
-    {
-        var entity = await _dbSet.FindAsync(id);
-        return entity;
-    }
     public async Task AddAsync(TEntity entity)
     {
         await _dbSet.AddAsync(entity);
@@ -58,9 +53,9 @@ public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : c
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task DeleteAsync(Guid? id)
     {
-        var entity = await GetByIdAsync(id);
+        var entity = await _dbSet.FindAsync(id);
         if (entity != null)
         {
             _dbSet.Remove(entity);

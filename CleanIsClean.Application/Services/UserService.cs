@@ -15,12 +15,13 @@ IRepository<Role> roleRepository) : IUserService
         await _userRepository.AddAsync(user);
         await _userRoleRepository.AddAsync(new UserRole { UserId = user.Id, RoleId = role.First().RoleId });
     }
-    public async Task<User?> GetUserByIdAsync(int id)
+    public async Task<User?> GetUserByIdAsync(Guid? id)
     {
-        var user = await _userRepository.GetByIdAsync(id);
+        IEnumerable<User?> users = await _userRepository.Get(u => u.Id == id);
+        User? user = users.FirstOrDefault();
         return user;
     }
-    public async Task<User?> GetUserByEmailAsync(string email)
+    public async Task<User?> GetUserByEmailAsync(string? email)
     {
         IEnumerable<User?> users = await _userRepository.Get(u => u.Email == email);
         User? user = users.FirstOrDefault();
@@ -34,7 +35,7 @@ IRepository<Role> roleRepository) : IUserService
     {
         await _userRepository.UpdateAsync(user);
     }
-    public async Task DeleteUserAsync(int id)
+    public async Task DeleteUserByIdAsync(Guid? id)
     {
         await _userRepository.DeleteAsync(id);
     }
@@ -44,7 +45,7 @@ IRepository<Role> roleRepository) : IUserService
         throw new NotImplementedException();
     }
 
-    public async Task<string?> GetUserRoleNameById(int id)
+    public async Task<string?> GetUserRoleNameByUserId(Guid? id)
     {
         IEnumerable<UserRole> userRoles = await _userRoleRepository.Get(p=> p.UserId == id, includeProperties: "Role");
         UserRole? userRole = userRoles.FirstOrDefault();

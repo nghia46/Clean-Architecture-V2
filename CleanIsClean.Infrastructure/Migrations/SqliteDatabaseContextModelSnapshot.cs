@@ -19,9 +19,9 @@ namespace CleanIsClean.Infrastructure.Migrations
 
             modelBuilder.Entity("Role", b =>
                 {
-                    b.Property<int>("RoleId")
+                    b.Property<Guid?>("RoleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("RoleName")
                         .IsRequired()
@@ -37,9 +37,9 @@ namespace CleanIsClean.Infrastructure.Migrations
 
             modelBuilder.Entity("User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid?>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -79,15 +79,15 @@ namespace CleanIsClean.Infrastructure.Migrations
 
             modelBuilder.Entity("UserRole", b =>
                 {
-                    b.Property<int>("UserRoleId")
+                    b.Property<Guid?>("UserRoleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("UserRoleId");
 
@@ -103,8 +103,7 @@ namespace CleanIsClean.Infrastructure.Migrations
                 {
                     b.HasOne("Role", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Role");
                 });

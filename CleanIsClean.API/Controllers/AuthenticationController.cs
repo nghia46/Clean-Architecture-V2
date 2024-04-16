@@ -28,7 +28,7 @@ public class AuthenticationController(IAuthenticationService authenticationServi
         // get user information after adding to response
         User? users = await _userService.GetUserByIdAsync(newUser.Id);
         UserView userView = _mapper.Map<UserView>(users);
-        userView.RoleName = await _userService.GetUserRoleNameById(newUser.Id) ?? "";
+        userView.RoleName = await _userService.GetUserRoleNameByUserId(newUser.Id) ?? "";
         return Ok(userView);
         // string? url = Url.Action("GetUserById", "UserController", new { id = newUser.Id }, Request.Scheme);
         // return Created(url, _mapper.Map<UserView>(newUser));

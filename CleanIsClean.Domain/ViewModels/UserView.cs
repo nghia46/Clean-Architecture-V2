@@ -1,7 +1,7 @@
 namespace CleanIsClean.Domain.ViewModels;
 public partial class UserView
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Username { get; set; } = null!;
 
     public string Password { get; set; } = null!;

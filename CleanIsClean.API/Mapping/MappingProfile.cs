@@ -8,5 +8,6 @@ public class MappingProfile : Profile
     {
         CreateMap<UserView, User>().ReverseMap();
         CreateMap<RegisterView, User>().ReverseMap();
+        CreateMap<RoleView, Role>().ReverseMap();
     }
 }
