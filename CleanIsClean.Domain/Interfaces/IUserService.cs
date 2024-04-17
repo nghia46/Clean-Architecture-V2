@@ -1,3 +1,5 @@
+using CleanIsClean.Domain.Models;
+
 namespace CleanIsClean.Domain.Interfaces;
 public interface IUserService
 {

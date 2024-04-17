@@ -3,6 +3,7 @@ using CleanIsClean.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using CleanIsClean.Application.Tools;
 using CleanIsClean.Domain.ViewModels;
+using CleanIsClean.Domain.Models;
 
 namespace CleanIsClean.API.Controllers;
 [ApiController]

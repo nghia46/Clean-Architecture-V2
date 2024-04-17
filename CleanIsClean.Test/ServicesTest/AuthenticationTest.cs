@@ -5,6 +5,7 @@ using CleanIsClean.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Telerik.JustMock;
 using Newtonsoft.Json;
+using CleanIsClean.Domain.Models;
 
 namespace CleanIsClean.Test.ServicesTest;
 [TestClass]
@@ -40,7 +41,7 @@ public class AuthenticationTest
 
         var role = new Role
         {
-            RoleId = Guid.NewGuid(),
+            Id = Guid.NewGuid(),
             RoleName = "User" // Assign the role name here
         };
 
@@ -48,15 +49,15 @@ public class AuthenticationTest
     {
         new()
         {
-            UserRoleId = Guid.NewGuid(),
+            Id = Guid.NewGuid(),
             UserId = users[0].Id,
-            RoleId = role.RoleId // Use the role ID here
+            RoleId = role.Id // Use the role ID here
         },
         new()
         {
-            UserRoleId = Guid.NewGuid(),
+            Id = Guid.NewGuid(),
             UserId = users[1].Id,
-            RoleId = role.RoleId // Use the role ID here
+            RoleId = role.Id // Use the role ID here
         },
     };
 

@@ -6,6 +6,8 @@ using CleanIsClean.Domain.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using CleanIsClean.Domain.ViewModels;
+using CleanIsClean.Domain.Models;
+
 namespace CleanIsClean.Application.Services;
 
 public class AuthenticationService(IRepository<User> userRepository,IRepository<UserRole> userRoleRepository, IConfiguration configuration) : IAuthenticationService

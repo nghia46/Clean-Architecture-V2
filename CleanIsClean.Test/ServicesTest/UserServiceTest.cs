@@ -3,6 +3,7 @@ using CleanIsClean.Domain.Interfaces;
 using Newtonsoft.Json;
 using System.Linq.Expressions;
 using Telerik.JustMock;
+using CleanIsClean.Domain.Models;
 
 namespace CleanIsClean.Test.ServicesTest;
 [TestClass]
@@ -20,18 +21,16 @@ public class UserServiceTest
             Username = "testUser1",
             Email = "testUser1@gmail.com",
             Password = "testPassword1",
-            FullName = "Test User 1 Full Name",
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            Fullname = "Test User 1 Full Name",
+
         },
         new() {
             Id = Guid.NewGuid(),
             Username = "testUser2",
             Email = "testUser2@gmail.com",
             Password = "testPassword2",
-            FullName = "Test User 2 Full Name",
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            Fullname = "Test User 2 Full Name",
+
         }
     ];
 
@@ -70,18 +69,15 @@ public class UserServiceTest
             Username = "testUser1",
             Email = "testUser1@gmail.com",
             Password = "testPassword1",
-            FullName = "Test User 1 Full Name",
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            Fullname = "Test User 1 Full Name",
         },
         new() {
             Id = Guid.NewGuid(),
             Username = "testUser2",
             Email = "testUser2@gmail.com",
             Password = "testPassword2",
-            FullName = "Test User 2 Full Name",
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            Fullname = "Test User 2 Full Name",
+
 
         },
             new() {
@@ -89,9 +85,7 @@ public class UserServiceTest
             Username = "testUser3",
             Email = "testUser3@gmail.com",
             Password = "testPassword3",
-            FullName = "Test User 3 Full Name",
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow
+            Fullname = "Test User 3 Full Name",
 
         }
     ];

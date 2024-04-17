@@ -2,6 +2,7 @@ using AutoMapper;
 using CleanIsClean.Domain.Interfaces;
 using CleanIsClean.Domain.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using CleanIsClean.Domain.Models;
 
 namespace CleanIsClean.API.Controllers;
 [ApiController]

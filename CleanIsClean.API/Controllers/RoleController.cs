@@ -1,8 +1,8 @@
 using AutoMapper;
-using CleanIsClean.Application.Services;
 using CleanIsClean.Domain.Interfaces;
 using CleanIsClean.Domain.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using CleanIsClean.Domain.Models;
 
 namespace CleanIsClean.API.Controllers;
 
@@ -37,5 +37,11 @@ public class RoleController(IRoleService roleService,IMapper mapper) : Controlle
     {
         await _roleService.CreateRole(role);
         return Ok($"Role {role.RoleName} successfully");
+    }
+    [HttpPost("GrantPermissions")]
+    public async Task<IActionResult> GrantPermissions(Guid userId, string roleName)
+    {
+        await _roleService.GrantPermissions(userId, roleName);
+        return Ok($"Permission granted to role {roleName}");
     }
 }

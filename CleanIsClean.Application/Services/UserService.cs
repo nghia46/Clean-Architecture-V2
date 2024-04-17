@@ -1,4 +1,5 @@
 using CleanIsClean.Domain.Interfaces;
+using CleanIsClean.Domain.Models;
 
 namespace CleanIsClean.Application.Services;
 public class UserService(IRepository<User> userRepository,
@@ -12,8 +13,9 @@ IRepository<Role> roleRepository) : IUserService
     public async Task AddUserAsync(User user)
     {
         var role = await _roleRepository.Get(p => p.RoleName == "User");
+        if(role == null) throw new Exception("Role not found");
         await _userRepository.AddAsync(user);
-        await _userRoleRepository.AddAsync(new UserRole { UserId = user.Id, RoleId = role.First().RoleId });
+        await _userRoleRepository.AddAsync(new UserRole { UserId = user.Id, RoleId = role.First().Id });
     }
     public async Task<User?> GetUserByIdAsync(Guid? id)
     {

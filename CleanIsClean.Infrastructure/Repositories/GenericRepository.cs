@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 namespace CleanIsClean.Infrastructure.Repositories;
 public class GenericRepository<TEntity> : IRepository<TEntity> where TEntity : class
 {
-    private readonly SqliteDatabaseContext _dbContext;
+    private readonly CleanPosgresDbContext _dbContext;
     private readonly DbSet<TEntity> _dbSet;
     private static readonly char[] separator = [','];
 
-    public GenericRepository(SqliteDatabaseContext dbContext)
+    public GenericRepository(CleanPosgresDbContext dbContext)
     {
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<TEntity>();
